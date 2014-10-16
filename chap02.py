@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_02\data\parsed.csv')
+df = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_02\data\parsed.csv')
 df.info()
 
 # 1. mb 지진규모 유형으로 사용해 일본 진도의 95번째 백분위수를 찾는다.
