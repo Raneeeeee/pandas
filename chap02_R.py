@@ -25,3 +25,27 @@ df[df.parsed_place == 'Nevada'].describe()
 # 볼리비아 Boliva, 캘리포니아 callornie, 캐나다 Canada, 칠레Chile, 코스타리기Costa Rica, 에콰도르 Eouador, 피지 Fiji, 과테 말라Guatemala,
 # 인도네시아 Indonesia. 일본Japan 케르마덱 제도Kermadec Inslands, 멕시코 Mexco (뉴멕시코New MeXiCO를 선택하면 안 된다), 
 # 뉴질랜드New zealand, 페루Peru, 필리핀 Philppins, 러시아 Rusia, 타이완Taiwan, 통가Tonga, 워싱턴Washington 을 사용한다.
+
+df['ring_of_fire'] = df.parsed_place.str.contains(r'|'.join([
+    'Alaska', 'Antarctic', 'Bolivia', 'California', 'Canada',
+    'Chile', 'Costa Rica', 'Ecuador', 'Fiji', 'Guatemala',
+    'Indonesia', 'Japan', 'Kermadec Islands', '^Mexico',
+    'New Zealand', 'Peru', 'Philippines', 'Russia',
+    'Taiwan', 'Tonga', 'Washington' 
+]))
+
+df['ring_of_fire2'] = df.parsed_place.str.contains('Alaska|Antarctic|Bolivia|California|Canada|Chile|Costa Rica|Ecuador|Fiji|Guatemala|Indonesia|Japan|Kermadec Islands|^Mexico|New Zealand|Peru|Philippines|Russia|Taiwan|Tonga| Washington')
+
+df['ring_of_fire2']
+df.head()
+
+# 5. 불의 고리 위치에서 발생한 지진의 횟수와 그 외에서 발생한 지진의 횟수를 계산한다.
+df2 = df[df['ring_of_fire'] == True]
+df2['ring_of_fire'].count()
+
+df['ring_of_fire'].value_counts() # 솔루션답
+
+# 6. 불의 고리를 따라 발생한 스나미 횟수를 계산한다.
+
+df[df['ring_of_fire'] == True].tsunami.value_counts()
+len(df[(df['ring_of_fire'] == True) & (df['tsunami']==1)])
