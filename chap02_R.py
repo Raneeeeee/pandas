@@ -49,3 +49,5 @@ df['ring_of_fire'].value_counts() # 솔루션답
 
 df[df['ring_of_fire'] == True].tsunami.value_counts()
 len(df[(df['ring_of_fire'] == True) & (df['tsunami']==1)])
+
+df.loc[df.ring_of_fire, 'tsunami'].sum()
