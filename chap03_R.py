@@ -58,3 +58,34 @@ melted_faang = faang.melt(
     id_vars=['ticker', 'date'], 
     value_vars=['open', 'high', 'low', 'close', 'volume']
 )
+
+# 6. 2020년 1월 1일부터 2020년 9월 18일 까지의 코로나19 확진자 수 데이터가 포함된 데이터를 사용하여 데이터를 정제하고 피보팅해 넓은 형태로 만든다.
+
+# a) covid19_cases.csv 파일을 읽는다.
+covid19 = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_cases.csv')
+
+# b) dateRep 열의 데이터와 pd.to_datetime() 함수를 사용해 date열을 만든다.
+covid19.dtypes
+covid19['date']=pd.to_datetime(covid19['dateRep'],format='%d/%m/%Y')
+
+
+
+# c) date 열을 인덱스로 설정하고 인덱스를 기준으로 정렬한다.
+covid19.head()
+covid19.index = covid19['date']
+
+# d) united_states_of_America와 United_Kingdom의 모든 항목을 각각 USA와 UK로 바꾼다. 
+# 힌트: replace() 메서드를 Dataframe 전체에 대해 실행한다.
+covid19['countriesAndTerritories'] = covid19['countriesAndTerritories'].replace('United_States_of_America','USA')
+covid19['countriesAndTerritories'] = covid19['countriesAndTerritories'].replace('United_Kingdom','UK')
+covid19['countriesAndTerritories'][:40]
+
+# e) countriesAndTerritories 열을 사용해 정제한 COVID-19 신규 확진자 수 데이터를
+# 아르헨티나Agentina, 브라질Biazal, 중국china, 콜롬비아colombia, 인도Inida, 이탈리아Italy, 멕시코Mexco, 페루Penv,
+# 러시아RuSSia, 스페인Spain, 터키Turkey, 영국UK, 미국USA으로 필터링한다.
+
+covid19_f = covid19[covid19['countriesAndTerritories'] == ('Argentina'|'Brazil'|'China'|'Colombia'|'Inida'|'Italy'|'Mexico'|'Peru'|'Russia'|'Turkey'|'UK'|'USA')]
+
+
+# c('Argentina'|'Brazil'|'China'|'Colombia','Inida','Italy','Mexico','Peru','Russia', 'Turkey','UK','USA')]
+# f) 날짜가 인덱스되고 국가명을 열로 하고, 값은 (cases 열에) 신규 확진자 수가 되도 록 데이터를 피보팅한다. NaN은 0으로 채워야 한다.
