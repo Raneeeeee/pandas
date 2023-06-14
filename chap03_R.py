@@ -84,8 +84,28 @@ covid19['countriesAndTerritories'][:40]
 # 아르헨티나Agentina, 브라질Biazal, 중국china, 콜롬비아colombia, 인도Inida, 이탈리아Italy, 멕시코Mexco, 페루Penv,
 # 러시아RuSSia, 스페인Spain, 터키Turkey, 영국UK, 미국USA으로 필터링한다.
 
-covid19_f = covid19[covid19['countriesAndTerritories'] == ('Argentina'|'Brazil'|'China'|'Colombia'|'Inida'|'Italy'|'Mexico'|'Peru'|'Russia'|'Turkey'|'UK'|'USA')]
+covid19_f = covid19[covid19['countriesAndTerritories'].isin(['Argentina','Brazil','China','Colombia','Inida','Italy','Mexico','Peru','Russia','Turkey','UK','USA'])]
+covid19['countriesAndTerritories'].dtype
 
 
-# c('Argentina'|'Brazil'|'China'|'Colombia','Inida','Italy','Mexico','Peru','Russia', 'Turkey','UK','USA')]
 # f) 날짜가 인덱스되고 국가명을 열로 하고, 값은 (cases 열에) 신규 확진자 수가 되도 록 데이터를 피보팅한다. NaN은 0으로 채워야 한다.
+covid19_f.pivot('date','countriesAndTerritories','cases').fillna(0)
+
+# 7. 국가별 전체 신규 확진자 수를 효율적으로 계산하여면 4장에서 배울 집계 기술이 필요하므로 covid19_cases.csv 파일의 ECDC데이터를 집계해
+# covid19_total_cases.csv 파일에 저장해 뒀다. 이 파일에 국가별 전체 신규 확진자 수가 포함돼 있다. 
+# 이 데이터를 사용해 COVID-19 전체 신규 확진자 수가 가장 많은 상위 20개 국가를 찾는다. 
+#(힌트 : CSV파일을 읽을때 index_col ='cases'를 사용하고, 국가를 분리하기전에 데이터를 전치하는 것이 도움된다.)
+
+covid19_total_cases = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_total_cases.csv')
+covid19_total = covid19_total_cases.T
+covid19_total = covid19_total.rename(columns={0:'cases'})
+covid19_total.columns
+covid19_total.nlargest(20,'cases') # 오류
+print(covid19_total) # index와 cases가 열에 포함되어있었네ㅠ
+covid19_total = covid19_total.drop(covid19_total.index[0])
+covid19_total['cases'] = covid19_total['cases'].astype('int')
+covid19_total.nlargest(20,'cases')
+
+# 솔루션 참고한 간단한코드
+covid19_total_cases = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_total_cases.csv', index_col='index')
+covid19_total_cases.T.nlargest(20,'cases')
