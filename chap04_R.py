@@ -37,8 +37,8 @@ earthquakes.query("magType == 'ml'").assign(
 
 faang = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_04\exercises\faang.csv')
 faang.dtypes
-faang['date2'] = pd.to_datetime(faang['date'])
-faang.index = faang['date2'] # resample 사용하려면 index가 datetime이어야함.
+faang['date'] = pd.to_datetime(faang['date'])
+faang.index = faang['date'] # resample 사용하려면 index가 datetime이어야함.
 # faang['month'] = faang['date2'].dt.month
 faang.groupby('ticker').resample('M').agg(
     {
@@ -70,7 +70,27 @@ a = faang.groupby('ticker').rolling('60D').agg(
 print(a)
 
 # 6. 주가를 비교하는 FAANG 데이터의 피봇 테이블을 만든다. 행에는 티커가 오도록하고 OHLC의 평균과 거래량 데이터를 표시한다.
+faang.pivot_table(index='ticker')
 
 # 7. apply()를 사용해 아마존 데이터의 2018년 4분기 (Q4) 각 숫자열의 Z-점수를 계산한다.
 
-#
+faang.info()
+
+a = faang[(faang.ticker == 'AMZN')&(faang.date.dt.quarter==4)]
+# dir(stat)
+a.apply(lambda x: x.sub(x.mean()).div(x.std()))
+
+'''
+mean = sum(values) / len(values)
+differences = [(value - mean)**2 for value in values]
+sum_of_differences = sum(differences)
+standard_deviation = (sum_of_differences / (len(values) - 1)) ** 0.5
+'''
+
+# 8 이벤트 설명을 추가한다.
+# a) ticker와 date, event의 세 열로 구성된 DataFrame을 만든다. 각 열은 다음과 같은 값을 가져야한다.
+# ⅰ) ticker : 'FB'
+# ⅱ) date : ['2018-07-25','2018-03-19','2018-03-20']
+# ⅲ) event : ['Disappointing user growth announced after colse.', 'Cambridge','Analytica story', 'FTC invsetigation']
+# b) 인덱스를 ['date','ticker']로 설정한다.
+# c) 이 데이터를 FAANG 데이터와 외부 결합으로 병합한다.
