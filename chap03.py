@@ -3,11 +3,11 @@ import pandas as pd
 # 1.각 주식 csv파일들을 하나의 파일로 결합하고 FANNG 데이터를 이후 연습 문제에 사용할 수 있도록 faang DataFrame으로 저장한다.
 
 # a) 각 csv 파일을 읽는다.
-fb = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\fb.csv')
-aapl = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\aapl.csv')
-amzn = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\amzn.csv')
-nflx = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\nflx.csv')
-goog = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\goog.csv')
+fb = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\fb.csv')
+aapl = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\aapl.csv')
+amzn = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\amzn.csv')
+nflx = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\nflx.csv')
+goog = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\goog.csv')
 
 # b) 각 DataFrame에 티커 기호를 나타내는 ticker(예: 애플은 AAPL이다) 열을 추가한다. 연습 문제의 경우의 파일 이름이 티커가 된다.
 fb['ticker'] = 'FB'
@@ -20,7 +20,7 @@ goog['ticker'] = 'GOOG'
 faang = pd.concat([fb,aapl,amzn,nflx,goog])
 
 # d) 결과를 faang.csv 파일로 저장한다.
-faang.to_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\faang.csv', index=False)
+faang.to_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\faang.csv', index=False)
 
 
 # 2. faang에서 유형 변환을 사용해 data 열의 값을 datetimes 형식으로, volume 열의 값을 정수형으로 변환한다. 
@@ -62,7 +62,7 @@ melted_faang = faang.melt(
 # 6. 2020년 1월 1일부터 2020년 9월 18일 까지의 코로나19 확진자 수 데이터가 포함된 데이터를 사용하여 데이터를 정제하고 피보팅해 넓은 형태로 만든다.
 
 # a) covid19_cases.csv 파일을 읽는다.
-covid19 = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_cases.csv')
+covid19 = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_cases.csv')
 
 # b) dateRep 열의 데이터와 pd.to_datetime() 함수를 사용해 date열을 만든다.
 covid19.dtypes
@@ -96,7 +96,7 @@ covid19_f.pivot('date','countriesAndTerritories','cases').fillna(0)
 # 이 데이터를 사용해 COVID-19 전체 신규 확진자 수가 가장 많은 상위 20개 국가를 찾는다. 
 #(힌트 : CSV파일을 읽을때 index_col ='cases'를 사용하고, 국가를 분리하기전에 데이터를 전치하는 것이 도움된다.)
 
-covid19_total_cases = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_total_cases.csv')
+covid19_total_cases = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_total_cases.csv')
 covid19_total = covid19_total_cases.T
 covid19_total = covid19_total.rename(columns={0:'cases'})
 covid19_total.columns
@@ -107,5 +107,5 @@ covid19_total['cases'] = covid19_total['cases'].astype('int')
 covid19_total.nlargest(20,'cases')
 
 # 솔루션 참고한 간단한코드
-covid19_total_cases = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_total_cases.csv', index_col='index')
+covid19_total_cases = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_03\exercises\covid19_total_cases.csv', index_col='index')
 covid19_total_cases.T.nlargest(20,'cases')
