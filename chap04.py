@@ -1,7 +1,8 @@
 import pandas as pd
+import numpy as np
 
 # 1. earthquakes.csv 파일에서 mb 진도 유형(magnitude type)의 진도가 4.9 이상인 일본의 모든 지진을 선택한다.
-earthquakes = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_04\exercises\earthquakes.csv')
+earthquakes = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_04\exercises\earthquakes.csv')
 earthquakes.dtypes
 over_49 = earthquakes[(earthquakes['mag']>=4.9) & (earthquakes['parsed_place']=='Japan') & (earthquakes['magType']=='mb')]
 
@@ -24,18 +25,15 @@ a = result['level'].value_counts()
 a.sort_index()
 
 
-import numpy as np
 
 earthquakes.query("magType == 'ml'").assign(
     mag_bin=lambda x: pd.cut(x.mag, np.arange(0, 10))
-).mag_bin.value_counts()  
-
-# 두개 왜 다를까...ㅠ -> 엑셀파일이 다른듯? 실제 데이터 필터 해보니 내가 쓴 정답이 맞네용~~
+).mag_bin.value_counts b()  
 
 # 3. faang.csv 파일에서 티커(ticker)로 그룹을 만들고 월별 빈도수 재표본추출한다. 다음과 같이 집계한다.
 # a) 시가 평균 b) 고가의 최대값 c) 저가의 최소값 d) 종가 평균 e) 거래량 합
 
-faang = pd.read_csv(r'C:\ITWILL\pandas\data-analysis-pandas-main\ch_04\exercises\faang.csv')
+faang = pd.read_csv(r'c:\Users\MSI\Desktop\study\pandas\data-analysis-pandas-main\ch_04\exercises\faang.csv')
 faang.dtypes
 faang['date'] = pd.to_datetime(faang['date'])
 faang.index = faang['date'] # resample 사용하려면 index가 datetime이어야함.
