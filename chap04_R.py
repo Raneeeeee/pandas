@@ -79,6 +79,7 @@ faang.info()
 a = faang[(faang.ticker == 'AMZN')&(faang.date.dt.quarter==4)]
 # dir(stat)
 a.apply(lambda x: x.sub(x.mean()).div(x.std()))
+# lambda 를 통해 z-점수를 구하는 함수를 만든다 -> apply는 함수를 각 행 or 열에 적용하는 역할 -> 즉 lambda함수(z-점수만드는)를 각 열에 적용해라
 
 '''
 mean = sum(values) / len(values)
